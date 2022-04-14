@@ -83,3 +83,33 @@ Setup folder /models and add index.js
     });
     module.exports = { Product };
 
+
+
+## RENDER THE DATA IN OUR FIRST TABLE - BACK TO ROUTE
+
+Add product.js in /routes folder
+
+    const express = require("express");
+    const router = express.Router();
+
+    // #1 import in the Product model
+    const {Product} = require('../models')
+
+    router.get('/', async (req,res)=>{
+        // #2 - fetch all the products (ie, SELECT * from products)
+        let products = await Product.collection().fetch();
+        res.render('products/index', {
+            'products': products.toJSON() // #3 - convert collection to JSON
+        })
+    })
+
+    module.exports = router;
+
+Import the route into index.js (main)
+
+    const productRoutes = require('./routes/products');
+    app.use('/products', productRoutes);
+
+Create index.hbs in /views/products folder
+
+    

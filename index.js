@@ -23,11 +23,15 @@ app.use(
     })
 );
 
-// import in routes
+// IMPORT IN THE ROUTES
 const landingRoutes = require('./routes/landing');
+const productRoutes = require('./routes/products')
+
 
 async function main() {
+    // USE THE ROUTES WE IMPORT IN
     app.use('/', landingRoutes );
+    app.use('/products', productRoutes);
 }
 
 main();
