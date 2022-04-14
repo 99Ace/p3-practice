@@ -47,6 +47,39 @@ Set up migrate command
     
     Run in terminal to migrate:
     ./db-migrate.sh up
+
 Create your first table 
                                                                       
     ./db-migrate.sh create products
+
+
+## INSTALL BOOKSHELF
+
+    yarn add knex
+    yarn add bookshelf
+
+Setup folder /bookshelf and add index.js
+
+    // Setting up the database connection
+    const knex = require('knex')({
+    client: 'mysql',
+    connection: {
+        user: <USERNAME>,
+        password: <PASSWORD>,
+        database: <DATABASE NAME>
+    }
+    })
+    const bookshelf = require('bookshelf')(knex)
+
+    module.exports = bookshelf;
+
+## CREATE MODELS
+
+Setup folder /models and add index.js
+
+    const bookshelf = require('../bookshelf')
+    const Product = bookshelf.model('Product', {
+        tableName:'products'
+    });
+    module.exports = { Product };
+
