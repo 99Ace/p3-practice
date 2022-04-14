@@ -4,6 +4,9 @@ const router = express.Router();
 // #1 import in the Product model
 const {Product} = require('../models')
 
+// #2 import in the Forms
+const { bootstrapField, createProductForm } = require('../forms');
+
 // READ ROUTE
 router.get('/', async (req,res)=>{
     // #2 - fetch all the products (ie, SELECT * from products)
@@ -13,6 +16,27 @@ router.get('/', async (req,res)=>{
     })
 })
 
+// CREATE ROUTE
+router.get('/create', async (req, res) => {
+    const productForm = createProductForm();
+    res.render('products/create',{
+        'form': productForm.toHTML(bootstrapField)
+    })
+})
+router.post('/create', async(req,res)=>{
+    const productForm = createProductForm();
+    productForm.handle(req, {
+        'success': async (form) => {
+            const product = new Product();
+            product.set('name', form.data.name);
+            product.set('cost', form.data.cost);
+            product.set('description', form.data.description);
+            await product.save();
+            res.redirect('/products');
+
+        }
+    })
+})
 
 
 module.exports = router;

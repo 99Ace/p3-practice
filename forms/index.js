@@ -7,8 +7,7 @@ const validators = forms.validators;
 // SETUP BOOTSTRAP FOR USE LATER
 var bootstrapField = function (name, object) {
     if (!Array.isArray(object.widget.classes)) {
-        object.widget.cllogin
-        asses = [];
+        object.widget.classes = [];
     }
 
     if (object.widget.classes.indexOf('form-control') === -1) {
