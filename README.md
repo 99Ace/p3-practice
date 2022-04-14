@@ -114,7 +114,7 @@ Import the route into index.js (main)
 
 Create index.hbs in /views/products folder
 
-# __CREATE__
+# __CREATE A NEW PRODUCT__
 
 ## INSTALLATION
 
@@ -165,7 +165,9 @@ Setup for template for form to Create Product
                 errorAfterField: true,
                 cssClasses: {
                     label: ['form-label']
-                }
+                },
+                // prevent user from entering char instead of numbers
+                'validators':[validators.integer()]
             }),
             'description': fields.string({
                 required: true,
@@ -176,3 +178,47 @@ Setup for template for form to Create Product
             }),
         })
     };
+
+# __UPDATE AN EXISTING PRODUCT__
+
+We can re-use the form we created in ./forms if all the fields required are the same
+
+Add in ./routes/products/index.js
+
+    router.get('/:product_id/update', async (req, res) => {
+        // retrieve the product
+        const productId = req.params.product_id
+        const product = await Product.where({
+            'id': productId
+        }).fetch({
+            require: true
+        });
+
+        const productForm = createProductForm();
+
+        // fill in the existing values
+        productForm.fields.name.value = product.get('name');
+        productForm.fields.cost.value = product.get('cost');
+        productForm.fields.description.value = product.get('description');
+
+        res.render('products/update', {
+            'form': productForm.toHTML(bootstrapField),
+            'product': product.toJSON()
+        })
+    })
+
+Add in ./views/products/update.hbs
+
+    {{#extends 'base'}}
+
+    {{#block 'content'}}
+    <h1>Update Product: {{product.name}}</h1>
+    <form method="POST">
+        {{{form}}}
+        <input type="submit" value="Update Product" class="btn btn-primary"/>
+    </form>
+    {{/block}}
+
+    {{/extends}}
+
+Add a edit button for each product in ./views/products/index.hbs
