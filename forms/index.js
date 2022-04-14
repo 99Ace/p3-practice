@@ -4,6 +4,7 @@ const forms = require("forms");
 const fields = forms.fields;
 const validators = forms.validators;
 
+// SETUP BOOTSTRAP FOR USE LATER
 var bootstrapField = function (name, object) {
     if (!Array.isArray(object.widget.classes)) {
         object.widget.cllogin
@@ -26,3 +27,34 @@ var bootstrapField = function (name, object) {
     var widget = object.widget.toHTML(name, object);
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
+
+// SETUP FOR A CREATE FORM FOR PRODUCT
+const createProductForm = () => {
+    return forms.create({
+        // make sure the naming matches the models
+        'name': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
+        }),
+        'cost': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
+        }),
+        'description': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
+        }),
+    })
+};
+
+// EXPORT THE VARIOUS FUNCTIONS
+module.exports = { createProductForm, bootstrapField };

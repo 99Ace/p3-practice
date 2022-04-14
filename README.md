@@ -149,3 +149,30 @@ Create form module - Add index.js in ./forms folder
         return '<div class="form-group">' + label + widget + error + '</div>';
     };
 
+Setup for template for form to Create Product
+
+    const createProductForm = () => {
+        return forms.create({
+            'name': fields.string({
+                required: true,
+                errorAfterField: true,
+                cssClasses: {
+                    label: ['form-label']
+                }
+            }),
+            'cost': fields.string({
+                required: true,
+                errorAfterField: true,
+                cssClasses: {
+                    label: ['form-label']
+                }
+            }),
+            'description': fields.string({
+                required: true,
+                errorAfterField: true,
+                cssClasses: {
+                    label: ['form-label']
+                }
+            }),
+        })
+    };
