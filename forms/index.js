@@ -43,7 +43,9 @@ const createProductForm = () => {
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
-            }
+            },
+            // prevent user from entering char instead of numbers
+            'validators':[validators.integer()]
         }),
         'description': fields.string({
             required: true,
