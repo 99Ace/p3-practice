@@ -183,7 +183,7 @@ Setup for template for form to Create Product
 
 We can re-use the form we created in ./forms if all the fields required are the same
 
-Add in ./routes/products/index.js
+Add in ./routes/products.js
 
     router.get('/:product_id/update', async (req, res) => {
         // retrieve the product
@@ -222,3 +222,40 @@ Add in ./views/products/update.hbs
     {{/extends}}
 
 Add a edit button for each product in ./views/products/index.hbs
+
+# __DELETE A PRODUCT__
+
+Add in ./routes/products.js
+
+    router.get('/:product_id/delete', async(req,res)=>{
+        // fetch the product that we want to delete
+        const product = await Product.where({
+            'id': req.params.product_id
+        }).fetch({
+            require: true
+        });
+
+        res.render('products/delete', {
+            'product': product.toJSON()
+        })
+
+    });
+
+Add in ./views/products/delete.hbs
+
+    {{#extends 'base'}}
+
+    {{#block 'content'}}
+    <h1>Deleting {{product.name}}</h1>
+
+    <form method="POST">
+        <div class="alert alert-danger">
+            <p>Are you sure you want to delete {{product.name}}?</p>
+            <input type="submit" class="btn btn-danger" value="Yes"/>
+            <a href="/products" class="btn btn-success">No</a>
+        </div>
+    </form>
+    {{/block}}
+    {{/extends}}
+
+Add a delete button for each product in ./views/products/index.hbs
